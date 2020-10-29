@@ -26,6 +26,8 @@ class QuotesSpider(scrapy.Spider): # the spider class to scrape the url page
         self.log(f'Saved file {filename}')
 
     def other_parse(self, response):
+    	# this method will follow a link to the next page of url site
+    	# if you want just change the name to parse and remove the parse method
     	for quote in response.css('div.quote'):
             yield {
                 'text': quote.css('span.text::text').get(),
@@ -35,7 +37,7 @@ class QuotesSpider(scrapy.Spider): # the spider class to scrape the url page
 
         next_page = response.css('li.next a::attr(href)').get()
         if next_page is not None:
-            yield response.follow(next_page, callback=self.parse)
+            yield response.follow(next_page, callback=self.parse) # following
 
 # a usefull way to scrape and get the data you want is to use
 # >> scrapy shell 'url_domain_name'  
